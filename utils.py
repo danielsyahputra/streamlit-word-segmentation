@@ -15,7 +15,7 @@ class WordSegmentation():
             new_height = int(new_width / factor)
 
             new_image = cv2.resize(image, (new_width, new_height), interpolation = cv2.INTER_AREA)
-            plt.imshow(new_image)
+            # plt.imshow(new_image)
         return new_image
 
     def thresholding(self, image):
@@ -44,7 +44,7 @@ class WordSegmentation():
     def get_nth_word(self, n):
         nth_word = self.words_list[n]
         roi_n = self.image[nth_word[1]:nth_word[3], nth_word[0]:nth_word[2]]
-        plt.imshow(roi_n)
+        # plt.imshow(roi_n)
         return roi_n
 
     def segmentation(self, image, resize=True):
@@ -87,5 +87,5 @@ class WordSegmentation():
                 cv2.rectangle(image_copy, (x+x2, y+y2), (x+x2+w2, y+y2+h2), (255,255,100),2)
 
         self.words_list = words_list
-        plt.imshow(image_copy)
+        # plt.imshow(image_copy)
         return image_copy
