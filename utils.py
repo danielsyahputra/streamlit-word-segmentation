@@ -1,3 +1,4 @@
+from turtle import width
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,26 +9,24 @@ class WordSegmentation():
         self.words_list = []
 
     def resize_image(self, image):
-        height, width, _ = image.shape
+        height = image.shape[0]
+        width = image.shape[1]
         if width > 1000:
             new_width = 1000
             factor = width / height
             new_height = int(new_width / factor)
-
             new_image = cv2.resize(image, (new_width, new_height), interpolation = cv2.INTER_AREA)
-            # plt.imshow(new_image)
-        return new_image
+            return new_image
+        return image
 
     def thresholding(self, image):
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         _, thresholded_image = cv2.threshold(image_gray, 80, 255, cv2.THRESH_BINARY_INV)
-        # plt.imshow(thresholded_image, cmap='gray')
         return thresholded_image
 
     def dilation(self, image):
         kernel = np.ones((3,85), np.uint8)
         dilated_image = cv2.dilate(image, kernel, iterations = 1)
-        # plt.imshow(dilated_image, cmap='gray')
         return dilated_image
 
     def find_contours_line(self, image):
@@ -38,19 +37,14 @@ class WordSegmentation():
     def find_contours_text(self, image):
         kernel = np.ones((3,15), np.uint8)
         dilated = cv2.dilate(image, kernel, iterations = 1)
-        # plt.imshow(dilated2, cmap='gray')
         return dilated
 
     def get_nth_word(self, n):
         nth_word = self.words_list[n]
         roi_n = self.image[nth_word[1]:nth_word[3], nth_word[0]:nth_word[2]]
-        # plt.imshow(roi_n)
         return roi_n
 
     def segmentation(self, image, resize=True):
-        # image = cv2.imread(path)
-        # image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-
         # Resizing image
         if resize:
             image = self.resize_image(image)
@@ -87,5 +81,4 @@ class WordSegmentation():
                 cv2.rectangle(image_copy, (x+x2, y+y2), (x+x2+w2, y+y2+h2), (255,255,100),2)
 
         self.words_list = words_list
-        # plt.imshow(image_copy)
         return image_copy
