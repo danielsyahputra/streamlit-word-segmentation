@@ -25,6 +25,12 @@ if uploaded_file is not None:
     image = np.array(image)
     segmentor = WordSegmentation()
     segmented_image = segmentor.segmentation(image=image)
-    words_list = segmentor.words_list
-    st.write(f"Ada {len(words_list)} kata di gambar.")
-    st.image(segmented_image, caption='Your image')
+    num_words = len(segmentor.words_list)
+
+    # Show result
+    show_segmented_image = st.checkbox(label="Show segmented image", value=True)
+    n_th = st.number_input(label="Get nth word", min_value=0, max_value=(num_words - 1))
+    n_th_word = segmentor.get_nth_word(n=n_th)
+    st.image(n_th_word, caption=f"Word - {n_th}")
+    if show_segmented_image:
+        st.image(segmented_image, caption='Your image')
