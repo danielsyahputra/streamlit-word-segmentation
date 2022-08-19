@@ -1,7 +1,5 @@
-from distutils.command.upload import upload
 import streamlit as st
 import numpy as np
-import cv2
 import numpy as np
 from PIL import Image
 
@@ -18,7 +16,7 @@ st.set_page_config(
 st.title('Word Segmentation App')
 
 # Upload file
-uploaded_file = st.file_uploader(label="Choose a file", type=['jpg', 'png', 'jpeg'])
+uploaded_file = st.file_uploader(label="Choose a file", type=['jpg', 'jpeg'])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
