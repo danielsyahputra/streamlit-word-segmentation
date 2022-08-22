@@ -1,7 +1,5 @@
-from turtle import width
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 
 class WordSegmentation():
     def __init__(self):
